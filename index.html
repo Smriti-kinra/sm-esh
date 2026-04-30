@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Invitation | 20 ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Quicksand:wght@500;700&display=swap');
+
+        :root {
+            --primary: #ff85a1;
+            --secondary: #fff0f3;
+            --accent: #ff4d6d;
+            --card-white: #ffffff;
+            --envelope-color: #ffb3c1;
+            --gold: #d4a373;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /* Envelope at bottom */
+            align-items: center;
+            background: radial-gradient(circle at center, #2c2c2c, #000);
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            perspective: 1500px;
+            padding-bottom: 10vh;
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Envelope */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: var(--envelope-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            border-top: 100px solid transparent;
+            border-right: 150px solid #ffccd5;
+            border-bottom: 100px solid #ffccd5;
+            border-left: 150px solid transparent;
+            bottom: 0;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .envelope::after {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            border-top: 100px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #ff85a1;
+            border-left: 150px solid #ff85a1;
+            bottom: 0;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-top: 110px solid #ff4d6d;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid transparent;
+            transform-origin: top;
+            transition: transform 0.4s;
+            z-index: 4;
+        }
+
+        .open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Fullscreen Overlay for the Letter */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* The Letter Card */
+        .card {
+            width: 360px;
+            max-width: 90vw;
+            height: auto;
+            /* Height adapts to content */
+            max-height: 95vh;
+            background: white;
+            padding: 30px 20px;
+            /* Reduced padding */
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 4px solid var(--secondary);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: translateY(100vh) scale(0.5);
+            /* Start at bottom */
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: 2px dashed var(--primary);
+            outline-offset: -12px;
+        }
+
+        .overlay.active .card {
+            transform: translateY(0) scale(1);
+            /* Move to center */
+        }
+
+        .card-content {
+            overflow: visible;
+            /* No internal scroll */
+            flex-grow: 1;
+        }
+
+        /* Content Styling */
+        .names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            /* Slightly smaller */
+            color: var(--accent);
+            margin-bottom: 2px;
+            line-height: 1.1;
+        }
+
+        .turning {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        .divider {
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+            margin: 0 auto 15px;
+        }
+
+        .location-box {
+            margin: 10px 0;
+        }
+
+        .loc-title {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .loc-sub {
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 3px;
+            font-size: 0.9rem;
+        }
+
+        .time-box {
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #444;
+        }
+
+        .note-box {
+            background: var(--secondary);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #555;
+            border: 1px solid #ffccd5;
+            margin-top: 10px;
+        }
+
+        .rsvp-section {
+            margin-top: 15px;
+            /* Reduced */
+            border-top: 1px dashed #ddd;
+            padding-top: 15px;
+            /* Reduced */
+        }
+
+        .rsvp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            /* Reduced */
+        }
+
+        .rsvp-form input,
+        .rsvp-form select {
+            padding: 10px;
+            /* Reduced */
+            border-radius: 10px;
+            border: 1px solid var(--primary);
+            outline: none;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .rsvp-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            /* Reduced */
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .rsvp-btn:hover {
+            background: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .age-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--accent);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 1.8rem;
+            transform: rotate(15deg);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            border: 3px solid white;
+            z-index: 100;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .floating-heart {
+            position: fixed;
+            color: var(--primary);
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 2000;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-300px) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2000;
+            border: 2px solid var(--primary);
+        }
+
+        .open-hint {
+            position: absolute;
+            top: -60px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .card {
+                height: 95vh;
+                padding: 25px 20px;
+            }
+
+            .names {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stars" id="stars"></div>
+
+    <!-- Envelope at Bottom -->
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openLetter()">
+        <div class="open-hint">Tap to open 💌</div>
+        <div class="envelope">
+            <div class="flap"></div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Overlay with Centered Card -->
+    <div class="overlay" id="overlay">
+        <div class="card">
+            <div class="age-badge">20</div>
+            <div class="card-content">
+                <h1 class="names">Smriti<br>& Ananya</h1>
+                <p class="turning">ARE TURNING 20</p>
+                <div class="divider"></div>
+
+                <div class="details">
+                    <p style="font-weight: 600; color: #888; font-size: 0.9rem;">JOIN US FOR A 🎈</p>
+                    <div class="location-box">
+                        <h2 class="loc-title">BnB House Party</h2>
+                        <p class="loc-sub">Sector 86, Mohali</p>
+                    </div>
+
+                    <div class="time-box">
+                        SATURDAY, MAY 2ND • 7 PM
+                    </div>
+
+                    <div class="note-box">
+                        "Bring your favorite drink (BYOB) & best energy (cause dance, food and VIBES are on us:) ! 🥂
+                        Dress code:
+                        <b>Anything BUT white</b> ❤️💜💛💚🖤 Let's make great memories! 💕"
+                    </div>
+
+                    <div class="rsvp-section">
+                        <form class="rsvp-form" id="rsvpForm" onsubmit="handleRSVP(event)">
+                            <input type="text" id="rsvpName" placeholder="Your good name" required>
+                            <select id="rsvpStatus" required>
+                                <option value="" disabled selected>Will you be there?</option>
+                                <option value="yes">YES! 💖</option>
+                                <option value="maybe">Maybe 🤞</option>
+                                <option value="no">No 😢</option>
+                            </select>
+                            <button type="submit" class="rsvp-btn">Send Love 💌</button>
+                        </form>
+                        <div id="rsvpSuccess"
+                            style="display:none; margin-top:20px; font-weight:700; color:var(--accent);">
+                            Yay! RSVP Received! 🎀✨
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="music-control" id="musicControl" onclick="toggleMusic(event)">
+        <span id="musicIcon" style="font-size: 24px;">🎵</span>
+    </div>
+
+    <audio id="bdayMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+
+    <div style="position:fixed; bottom:5px; left:50%; transform:translateX(-50%); font-size:10px; color:rgba(255,255,255,0.1); cursor:pointer; user-select:none;"
+        onclick="showGuestList()">Admin</div>
+    <script>
+        // Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 120; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            starsContainer.appendChild(star);
+        }
+
+        const wrapper = document.getElementById('envelopeWrapper');
+        const overlay = document.getElementById('overlay');
+        const audio = document.getElementById('bdayMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        let musicStarted = false;
+
+        function openLetter() {
+            wrapper.classList.add('open');
+
+            // Phase 1: Open Flap
+            setTimeout(() => {
+                // Phase 2: Show Overlay and Slide Card Up
+                overlay.classList.add('active');
+
+                // Spawn hearts
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(spawnHeart, i * 150);
+                }
+
+                if (!musicStarted) {
+                    audio.play().then(() => {
+                        musicStarted = true;
+                        musicIcon.textContent = '⏸';
+                    }).catch(() => { });
+                }
+            }, 400);
+        }
+
+        function closeLetter() {
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                wrapper.classList.remove('open');
+            }, 500);
+        }
+
+        // Close when clicking outside the card
+        overlay.onclick = function (e) {
+            if (e.target === overlay) {
+                closeLetter();
+            }
+        };
+
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['💖', '✨', '💗', '🌸', '🎀'][Math.floor(Math.random() * 5)];
+            heart.style.left = (Math.random() * 80 + 10) + 'vw';
+            heart.style.top = '60vh';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        function toggleMusic(event) {
+            event.stopPropagation();
+            if (audio.paused) { audio.play(); musicIcon.textContent = '⏸'; }
+            else { audio.pause(); musicIcon.textContent = '🎵'; }
+        }
+
+        function handleRSVP(event) {
+            event.preventDefault();
+            const name = document.getElementById('rsvpName').value;
+            const status = document.getElementById('rsvpStatus').value;
+
+            // Save to Local Database (LocalStorage)
+            const rsvps = JSON.parse(localStorage.getItem('bday_rsvps') || '[]');
+            rsvps.push({ name, status, date: new Date().toLocaleString() });
+            localStorage.setItem('bday_rsvps', JSON.stringify(rsvps));
+
+            document.getElementById('rsvpForm').style.display = 'none';
+            document.getElementById('rsvpSuccess').style.display = 'block';
+
+            // Celebration
+            for (let i = 0; i < 20; i++) setTimeout(spawnHeart, i * 50);
+
+            // Close after a short delay
+            setTimeout(() => {
+                closeLetter();
+            }, 2000);
+        }
+
+        // Hidden Guest List Feature
+        // To view: Type 'guests' anywhere on the page or use the hidden button at the bottom
+        function showGuestList() {
+            const rsvps = JSON.parse(localStorage.getItem('bday_rsvps') || '[]');
+            const listHtml = rsvps.length > 0
+                ? rsvps.map(r => `<tr><td>${r.name}</td><td>${r.status}</td><td>${r.date}</td></tr>`).join('')
+                : '<tr><td colspan="3">No RSVPs yet!</td></tr>';
+
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border-radius:20px; z-index:5000; box-shadow:0 0 100px rgba(0,0,0,0.5); max-width:90vw; max-height:80vh; overflow-y:auto; font-family:Quicksand,sans-serif;';
+            modal.innerHTML = `
+                <h2 style="color:var(--accent); margin-bottom:20px;">Guest List 🎀</h2>
+                <table style="width:100%; border-collapse:collapse; text-align:left;">
+                    <thead style="border-bottom:2px solid var(--primary);">
+                        <tr><th style="padding:10px;">Name</th><th style="padding:10px;">Status</th><th style="padding:10px;">Time</th></tr>
+                    </thead>
+                    <tbody>${listHtml}</tbody>
+                </table>
+                <button onclick="this.parentElement.remove()" style="margin-top:20px; padding:10px 20px; background:var(--accent); color:white; border:none; border-radius:10px; cursor:pointer; width:100%;">Close</button>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Detect 'guests' typing to show list
+        let typed = '';
+        window.addEventListener('keydown', (e) => {
+            typed += e.key;
+            if (typed.includes('guests')) {
+                showGuestList();
+                typed = '';
+            }
+            if (typed.length > 10) typed = typed.slice(1);
+        });
+    </script>
+</body>
+
+</html>
